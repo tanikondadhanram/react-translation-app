@@ -8,7 +8,6 @@ import {
 import { I18nextProvider } from "react-i18next";
 
 import i18n from "./i18n";
-import NavigatingButton from "./components/NavigatingButton/NavigatingButton";
 
 const SampleRoute = lazy(() => import("./routes/SampleRoute"));
 const TestRoute = lazy(() => import("./routes/TestRoute"));
@@ -19,16 +18,6 @@ class App extends Component {
       <I18nextProvider i18n={i18n}>
         <Suspense fallback={<div>Loading....</div>}>
           <Router>
-            <div>
-              <NavigatingButton
-                routeName="TestRoute"
-                routeValue={i18n.language}
-              />
-              <NavigatingButton
-                routeName="SampleRoute"
-                routeValue={i18n.language}
-              />
-            </div>
             <Switch>
               <Route exact path="/SampleRoute" component={SampleRoute} />
               <Route exact path="/TestRoute" component={TestRoute} />

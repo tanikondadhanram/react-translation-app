@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { withTranslation, WithTranslation } from "react-i18next";
 
 import withChangeLang from "../hocs/withChangeLang";
+import withNavButton from "../hocs/withNavButton";
 
 class TestRoute extends Component<WithTranslation> {
   render() {
@@ -15,4 +16,6 @@ class TestRoute extends Component<WithTranslation> {
   }
 }
 
-export default withChangeLang(withTranslation("translation")(TestRoute));
+export default withNavButton(
+  withChangeLang(withTranslation("translation")(TestRoute))
+);
