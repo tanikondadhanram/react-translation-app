@@ -28,10 +28,12 @@ i18n
     }
   );
 
-i18n.loadNamespaces(["todos"], (err) => {
+i18n.loadNamespaces(["common"], (err) => {
   if (err) {
     console.log("I18n loadNamespaces error", err);
   }
 });
+
+// i18n.languages = ["en", "hi"];
 
 export default i18n;

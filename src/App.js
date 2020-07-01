@@ -1,51 +1,45 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import React, { Component, Suspense, lazy } from "react";
 import {
-  WithTranslation,
-  withTranslation,
-  I18nextProvider,
-} from "react-i18next";
-import i18n from "./i18n";
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
+import { I18nextProvider } from "react-i18next";
 
-class App extends React.Component<WithTranslation> {
-  handleOnclick = (event) => {
-    i18n.changeLanguage(event.target.value);
-  };
+import i18n from "./i18n";
+import NavigatingButton from "./components/NavigatingButton/NavigatingButton";
+import ChangeLangRoute from "./routes/ChangeLangRoute";
+
+const SampleRoute = lazy(() => import("./routes/SampleRoute"));
+const TestRoute = lazy(() => import("./routes/TestRoute"));
+
+class App extends Component {
   render() {
     return (
       <I18nextProvider i18n={i18n}>
-        <Suspense fallback={<div>Loading......</div>}>
-          <div className="App">
-            <nav className="p-12 bg-gray-600 w-full">
-              <button onClick={this.handleOnclick} value="en">
-                english
-              </button>
-              <button onClick={this.handleOnclick} value="hi">
-                hindi
-              </button>
-            </nav>
-            <header className="App-header">
-              <img src={logo} className="App-logo" alt="logo" />
-              <p>
-                Edit <code>src/App.js</code> and save to reload.
-              </p>
-              <a
-                className="App-link"
-                href="https://reactjs.org"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Learn React
-              </a>
-              <p>{this.props.t("todos:hi")}</p>
-              <p>{this.props.t("todos:hello")}</p>
-            </header>
-          </div>
+        <Suspense fallback={<div>Loading....</div>}>
+          <Router>
+            <div>
+              <NavigatingButton
+                routeName="TestRoute"
+                routeValue={i18n.language}
+              />
+              <NavigatingButton
+                routeName="SampleRoute"
+                routeValue={i18n.language}
+              />
+            </div>
+            <Switch>
+              <Route exact path="/SampleRoute" component={SampleRoute} />
+              <Route exact path="/TestRoute" component={TestRoute} />
+              <Redirect exact from="/" to="/SampleRoute" />
+            </Switch>
+          </Router>
         </Suspense>
       </I18nextProvider>
     );
   }
 }
 
-export default withTranslation("translation")(App);
+export default App;
